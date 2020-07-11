@@ -1,23 +1,3 @@
-/*
-1.  В элемент select вывести сгруппированный возраст
-    пользователей
-То есть у нас 9 пользователей и их возраст 20, 30, 40
-Элемент select должен получится таким
-
-<select>
-    <option value="-1">Choose age</option>
-    <option value="20">20</option>
-    <option value="30">30</option>
-    <option value="40">40</option>
-</select>
-
-
-2. При выборе соответствующего option осуществить вывод
-    пользователей соответствующих выбранному возрасту
-    в элемент <div id="res"></div>
-То есть при выборе например 20 должны вывестись  John, Ashley, Willy
-*/
-
 const usersSelect = document.getElementById("users-select");
 const res = document.getElementById("res");
 
@@ -32,3 +12,49 @@ let users = [
   { id: 8, name: "Jim", age: "40" },
   { id: 9, name: "Willy", age: "20" },
 ];
+
+function groupAge(array) {
+  let age = [];
+
+  array.forEach((user) => {
+    if (!age.includes(user.age)) {
+      age.push(user.age);
+    }
+  });
+
+  age.sort();
+
+  age.forEach((item) => {
+    if (usersSelect) {
+      let option = document.createElement("option");
+      option.value = item;
+      option.innerText = item;
+      usersSelect.appendChild(option);
+    }
+  });
+}
+
+function map(array, fn) {
+  fn(array);
+}
+
+map(users, groupAge);
+
+usersSelect.addEventListener("change", (e) => {
+  let usersByAge = [];
+  users.forEach((user) => {
+    if (user.age == e.target.value) {
+      usersByAge.push(user.name);
+    }
+  });
+
+  usersByAge.sort();
+
+  res.innerText = "";
+
+  usersByAge.forEach((user) => {
+    let userName = document.createElement("p");
+    userName.innerText = user;
+    res.appendChild(userName);
+  });
+});
