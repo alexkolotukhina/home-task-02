@@ -41,20 +41,13 @@ function map(array, fn) {
 map(users, groupAge);
 
 usersSelect.addEventListener("change", (e) => {
-  let usersByAge = [];
-  users.forEach((user) => {
-    if (user.age == e.target.value) {
-      usersByAge.push(user.name);
-    }
-  });
-
-  usersByAge.sort();
+  let usersByAge = users.filter(user => user.age == e.target.value);
 
   res.innerText = "";
 
   usersByAge.forEach((user) => {
     let userName = document.createElement("p");
-    userName.innerText = user;
+    userName.innerText = user.name;
     res.appendChild(userName);
   });
 });
